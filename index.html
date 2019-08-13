@@ -28,8 +28,70 @@
             z-index: 10;
             position: fixed;
         }
+        .sidebar {
+            z-index: 20;
+            position: fixed;
+            left: -200px;
+            animation: sidebar-hide-ani 0.8s forwards 1;
+        }
+        .sidebar-show {
+            animation: sidebar-show-ani 0.8s forwards 1;
+        }
+        @keyframes sidebar-show-ani {
+            0% {
+                left: -200px;
+            }
+            100% {
+                left: 0px;
+            }
+        }
+        @keyframes sidebar-hide-ani {
+            0% {
+                left: 0px;
+            }
+            100% {
+                left: -200px;
+            }
+        }
+        .barrier {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 11;
+            animation: barrier-gone-ani 0.8s forwards 1;
+            background-color: rgba(0, 0, 0, .6);
+        }
+        .barrier-active {
+            display: block !important;
+            animation: barrier-active-ani 0.8s forwards 1;
+        }
+        @keyframes barrier-active-ani {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes barrier-gone-ani {
+            0% {
+                opacity: 1;
+            }
+            99% {
+                opacity: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+        }
         .head {
-            background-image: url("resource/image/background/background_1.png");
+            background-image: url("https://pollinators-tw.github.io/resource/image/background/background_1.png");
             background-position: center center;
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -57,12 +119,20 @@
     </style>
 </head>
 <body>
+    <div class="barrier" onclick="sidebar()"></div>
     <div class="content">
         <!-- Navigation -->
         <div class="bar w3-card w3-bar w3-border-bottom w3-white">
             <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
             <a class="w3-bar-item w3-button" href="/"><b>Pollinators</b></a>
         </div>
+        <!-- Sidebar -->
+        <div class="sidebar w3-sidebar w3-bar-block w3-border-right">
+            <a href="javascript:sidebar()" class="w3-bar-item w3-button w3-large">Close X</a>
+            <a href="/database/" class="w3-bar-item w3-button">Database</a>
+            <a href="/account/" class="w3-bar-item w3-button">Login & Sign Up</a>
+        </div>
+        <!-- Image -->
         <div class="head">
             <h1 class="" style="font-size: 4rem;">Pollinators</h1>
             <span>A Global Biology Research Project</span>
@@ -70,7 +140,14 @@
         <div class="block">
             <div class="w3-margin">
                 <h2>About Pollinators</h2>
-                <p>Pollinators is a global biology research project.</p>
+                <p>
+                    Pollinators is a global biology research project. <br>
+                    This project is very cool. <br>
+                    We hope you can join us. <br>
+                    LA LA LA LA LA. <br>
+                    DU DU DU DU DU. <br>
+                    DA DA DA DA DA. <br>
+                </p>
             </div>
         </div>
     </div>
@@ -78,7 +155,15 @@
         
     </div>
     <script>
-        
+        function sidebar() {
+            getClass("sidebar").classList.toggle("sidebar-show");
+            getClass("barrier").classList.toggle("barrier-active");
+        }
+        function getClass(cls, one=true) {
+            if(one)
+                return document.getElementsByClassName(cls)[0];
+            return document.getElementsByClassName(cls);
+        }
     </script>
 </body>
 </html>
