@@ -25,6 +25,7 @@
     </script>
     <style>
         .bar {
+            z-index: 10;
             position: fixed;
         }
         .head {
@@ -32,24 +33,32 @@
             background-position: center center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            height: 100vh;
+            background-size: cover;
+            height: 70vh;
             color: white;
         }
         .w3-bar-item {
             padding: 8px 6px 8px 14px !important;
             font-size: 1.1rem;
         }
+        .block {
+            z-index: 10;
+            width: 100vw;
+        }
     </style>
 </head>
 <body>
     <div class="content">
         <!-- Navigation -->
-        <div class="bar w3-bar w3-border-bottom">
+        <div class="bar w3-card w3-bar w3-border-bottom">
             <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
             <a class="w3-bar-item w3-button" href="/"><b>Pollinators</b></a>
         </div>
         <div class="head w3-display-container">
             <h1 class="w3-display-middle">Pollinators</h1>
+        </div>
+        <div class="block w3-card-4 w3-padding">
+            <h1>Text</h1>
         </div>
     </div>
     <div class="footer w3-container w3-white">
