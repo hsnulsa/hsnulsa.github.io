@@ -44,21 +44,28 @@
         .block {
             z-index: 10;
             width: 100vw;
+            padding: 0 0 8px 0;
+        }
+        .hide {
+            display: none !important;
         }
     </style>
 </head>
 <body>
     <div class="content">
         <!-- Navigation -->
-        <div class="bar w3-card w3-bar w3-border-bottom">
+        <div class="bar w3-card w3-bar w3-border-bottom w3-white">
             <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
             <a class="w3-bar-item w3-button" href="/"><b>Pollinators</b></a>
         </div>
         <div class="head w3-display-container">
-            <h1 class="w3-display-middle">Pollinators</h1>
+            <h1 class="w3-display-middle" style="font-size: 4rem;">Pollinators</h1>
         </div>
-        <div class="block w3-card-4 w3-padding">
-            <h1>Text</h1>
+        <div class="block w3-card-4">
+            <div class="w3-margin">
+                <h2>About Pollinators</h2>
+                <p>Pollinators is a global biology research project.</p>
+            </div>
         </div>
     </div>
     <div class="footer w3-container w3-white">
