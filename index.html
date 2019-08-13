@@ -24,21 +24,29 @@
         */
     </script>
     <style>
+        .bar {
+            position: fixed;
+        }
         .head {
             background-image: url("resource/image/background/background_1.png");
-            min-height: 16rem;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: white;
         }
-        
+        .w3-bar-item {
+            padding: 8px 6px 8px 14px !important;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
     <div class="content">
         <!-- Navigation -->
-        <div class="w3-bar w3-border-bottom">
-            <a class="w3-bar-item w3-button" href="/">Pollinators</a>
-        </div>
-        <div class="w3-margin-top w3-center stage">
-            
+        <div class="bar w3-bar w3-border-bottom">
+            <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
+            <a class="w3-bar-item w3-button" href="/"><b>Pollinators</b></a>
         </div>
         <div class="head w3-display-container">
             <h1 class="w3-display-middle">Pollinators</h1>
