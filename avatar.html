@@ -1,0 +1,22 @@
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="cnv" width="400" height="400" style="border:1px solid #000000;"></canvas>
+    <button id="btn" onclick="draw();setTimeout(function(){draw()}, 300);">DRAW</button>
+    <script>
+        var btn = document.getElementById("btn");
+        var canvas = document.getElementById("cnv");
+        var ctx = canvas.getContext("2d");
+        var img = document.createElement("img");
+        img.src = "https://pollinators-tw.github.io/resource/image/background/background_1.png";
+        function draw() {
+            ctx.drawImage(img, 0, 0, 500, 400);
+            ctx.font = "60px Comfortaa";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.fillText("Pollinators", canvas.width/2, canvas.height/2+10);
+        }
+        draw();setTimeout(function(){draw()}, 300);
+    </script>
+</body>
