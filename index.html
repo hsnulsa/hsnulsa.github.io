@@ -7,23 +7,6 @@
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/pascal-the-elf/js-library@1.2/release/URL-Key.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/zh-tw.js"></script>
-    <script>
-        /*
-        var firebaseConfig = {
-            
-        };
-        firebase.initializeApp(firebaseConfig);
-        var db = firebase.firestore();
-        */
-    </script>
     <style>
         body, h1, h2, h3, p, a, span, button {
             font-family: "Comfortaa", Arial;
@@ -126,24 +109,23 @@
     <div class="barrier" onclick="sidebar()"></div>
     <div class="content">
         <!-- Navigation -->
-        <div class="bar w3-card w3-bar w3-border-bottom w3-white">
+        <div class="bar w3-card w3-bar w3-white">
             <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
-            <a class="w3-bar-item w3-button w3-indigo" href="/"><b>Pollinator</b></a>
-            <a class="w3-bar-item w3-button" href="#"><b>Database</b></a>     
-            <a class="w3-bar-item w3-button" href="#"><b>Report</b></a>
-            <a class="w3-bar-item w3-button" href="#"><b>About</b></a>
-            <a class="w3-bar-item w3-button w3-right" href="#"><b>Cooperation</b></a>
+            <a class="w3-bar-item w3-button w3-indigo" href="/"><b>Pollinators</b></a>
+            <a class="w3-bar-item w3-button w3-right" href="/auth/?tab=login"><b>登入</b></a>
         </div>
         <!-- Sidebar -->
         <div class="sidebar w3-sidebar w3-bar-block w3-border-right">
-            <a href="javascript:sidebar()" class="w3-bar-item w3-buteton w3-large">Close X</a>
-            <!-- <a href="/database/" class="w3-bar-item w3-button">Database</a> -->
-            <a href="/account/" class="w3-bar-item w3-button">Login & Sign Up</a>
+            <a href="javascript:sidebar()" class="w3-bar-item w3-buteton w3-large">關閉</a>
+            <a class="w3-bar-item w3-button" href="/about"><b>關於 Pollinators</b></a>
+            <a class="w3-bar-item w3-button" href="/database/"><b>公開資料庫</b></a>     
+            <a class="w3-bar-item w3-button" href="/research"><b>研究報告</b></a>
+            <a class="w3-bar-item w3-button" href="/cooperation"><b>合作對象</b></a>
         </div>
         <!-- Image -->
         <div class="head">
             <h1 class="" style="font-size: 4rem;">Pollinators</h1>
-            <span>A Global Biology Research Project</span>
+            <span>一個關於傳粉研究的全球公開資料庫</span>
         </div>
         <div class="block">
             <div class="w3-margin">
