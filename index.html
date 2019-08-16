@@ -109,13 +109,14 @@
     <div class="barrier" onclick="sidebar()"></div>
     <div class="content">
         <!-- Sidebar -->
-        <div class="sidebar w3-sidebar w3-bar-block w3-border-right">
+        <div class="sidebar w3-sidebar w3-bar-block w3-border-right" style="opacity: 0">
             <a href="javascript:sidebar()" class="w3-bar-item w3-buteton w3-large">關閉</a>
             <a class="w3-bar-item w3-button" href="/about"><b>關於 Pollinators</b></a>
             <a class="w3-bar-item w3-button" href="/database/"><b>公開資料庫</b></a>     
             <a class="w3-bar-item w3-button" href="/research"><b>研究報告</b></a>
             <a class="w3-bar-item w3-button" href="/cooperation"><b>合作對象</b></a>
         </div>
+        <script>setTimeout(()=>document.getElementsByClassName("sidebar")[0].style.opacity=1, 800)</script>
         <!-- Navigation -->
         <div class="bar w3-card w3-bar w3-white">
             <a class="w3-bar-item w3-button" href="javascript:sidebar()"><i class="fas fa-bars"></i></a>
