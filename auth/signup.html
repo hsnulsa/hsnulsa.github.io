@@ -284,12 +284,12 @@
             firebase.auth().createUserWithEmailAndPassword(inputs[1].value, inputs[2].value).then((user) => {
                 console.log(firebase.auth().currentUser.uid);
                 Swal.fire({title: '正在註冊', text: '這可能需要 3~5 秒', showConfirmButton: false});
-                db.dosomething({
-                    SOMETHING;
+                /*db.dosomething({
+                    SOMETHING
                 }).then(()=>{
                     firebase.auth().currentUser.sendEmailVerification();
                     Swal.fire("註冊成功", "確認後將前往個人頁面", "success").then(()=>{location.href="/me"});
-                });
+                });*/
             })
                 .catch((error) => {
                     var authCode = error.code;
