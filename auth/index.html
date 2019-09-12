@@ -41,40 +41,12 @@
             font-family: "Comfortaa", Verdana, 'Microsoft JhengHei', 'PingFang', sans-serif;
             font-weight: bold;
         }
-        .hide {
-            display: none !important;
-        }
-        a {
-            color: orange !important;
-            text-decoration: none;
-        }
-        a:hover {
-            color: #ffcc77 !important;
-            text-decoration: none;
-        }
-        a:visited {
-            color: orange !important;
-            text-decoration: none;
-        }
-        a.w3-bar-item.w3-button {
-            color: black !important;
-            text-decoration: none;
-        }
-        a.w3-bar-item.w3-button:hover {
-            color: black !important;
-            text-decoration: none;
-        }
-        a.w3-bar-item.w3-button:visited {
-            color: black !important;
-            text-decoration: none;
-        }
-        div.w3-bar.w3-border-bottom {
-            position: sticky;
-            top: 0;
-            background-color: white;
-        }
         .w3-bar-item {
             padding: 8px 10px !important;
+            font-size: 1.1rem;
+        }
+        .hide {
+            display: none !important;
         }
         .wrapper {
             display: flex;
@@ -121,6 +93,74 @@
         }
         @media screen and (min-width: 700px) {
             .card { width: 600px }
+        }
+        .bar {
+            z-index: 10;
+            position: sticky;
+            position: -webkit-sticky;
+            top: 0;
+        }
+        .sidebar {
+            z-index: 20;
+            position: fixed;
+            left: -200px;
+            animation: sidebar-hide-ani 0.8s forwards 1;
+        }
+        .sidebar-show {
+            animation: sidebar-show-ani 0.8s forwards 1;
+        }
+        @keyframes sidebar-show-ani {
+            0% {
+                left: -200px;
+            }
+            100% {
+                left: 0px;
+            }
+        }
+        @keyframes sidebar-hide-ani {
+            0% {
+                left: 0px;
+            }
+            100% {
+                left: -200px;
+            }
+        }
+        .barrier {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 11;
+            animation: barrier-gone-ani 0.8s forwards 1;
+            background-color: rgba(0, 0, 0, .6);
+        }
+        .barrier-active {
+            display: block !important;
+            animation: barrier-active-ani 0.8s forwards 1;
+        }
+        @keyframes barrier-active-ani {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @keyframes barrier-gone-ani {
+            0% {
+                opacity: 1;
+            }
+            99% {
+                opacity: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+            100% {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
         }
     </style>
 </head>
@@ -173,6 +213,14 @@
         </span>
     </div>
     <script>
+        function sidebar() {
+            getClass("sidebar").classList.toggle("sidebar-show");
+            getClass("barrier").classList.toggle("barrier-active");
+        }
+        function getClass(cls, one=true) {
+            if(one) return document.getElementsByClassName(cls)[0];
+            return document.getElementsByClassName(cls);
+        }
         var input = document.getElementsByTagName("input");
         input[0].addEventListener("keyup", e => {
             if(e.keyCode === 13 || e.which === 13) {
@@ -218,10 +266,6 @@
                 }
                 document.getElementById("btn").disabled = false;
             });
-        }
-        function sidebar() {
-            getClass("sidebar").classList.toggle("sidebar-show");
-            getClass("barrier").classList.toggle("barrier-active");
         }
     </script>
 </body>
