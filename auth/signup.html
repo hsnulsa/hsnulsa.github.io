@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登入 | Pollinators</title>
+    <title>註冊 | Pollinators</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/gh/pascal-the-elf/js-library@1.2/release/URL-Key.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script>
         var firebaseConfig = {
@@ -22,6 +23,7 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        var db = firebase.database();
         var fa = 1;
     </script>
     <style>
@@ -182,26 +184,38 @@
             <a class="w3-bar-item w3-button w3-indigo" href="/"><b>Pollinators</b></a>
             <a class="w3-bar-item w3-button w3-right" href="/auth/?tab=login"><b>登入</b></a>
         </div>
+        
         <div class="wrapper">
             <div class="card w3-card w3-round-large">
-                <div class="login w3-margin">
-                    <h3><b>Pollinators</b></h3>
+                <div class="signup w3-margin">
+                    <h3><i class="fas fa-envelope w3-text-black"></i><b> AnonySend</b></h3>
                     <div class="w3-container" style="width: 100%">
                         <div style="width: 100%">
-                            <label>電子郵件</label>
-                            <input class="w3-input" type="text">
+                            <label for="name">輸入名稱</label>
+                            <input id="name" class="w3-input" type="text" name="name">
                         </div>
                         <div style="width: 100%">
-                            <label>密碼</label>
-                            <input class="w3-input" type="password">
+                            <label for="email">輸入電子郵件</label>
+                            <input id="email" class="w3-input" type="text" name="email">
                         </div>
-                        <button id="btn" class="w3-button w3-border w3-margin w3-round" style="width: 100%" onclick="_login()"> 登入 </button>
+                        <div style="width: 100%">
+                            <label for="password">輸入密碼</label>
+                            <input id="password" class="w3-input" type="password" name="password">
+                        </div>
+                        <div style="width: 100%">
+                            <label for="password2">再次輸入密碼</label>
+                            <input id="password2" class="w3-input" type="password" name="password2">
+                        </div>
+                        <div style="width: 100%">
+                            <a class="w3-right w3-margin-top" href="/declaration" target="_blank">使用者協議及隱私權政策</a>
+                        </div>
+                        <button id="btn" class="w3-button w3-border w3-margin w3-round" style="width: 100%" onclick="_signup()"> 註冊 </button>
                     </div>
                 </div>
                 <hr>
-                <div class="signup w3-margin">
+                <div class="login w3-margin">
                     <div class="w3-container" style="width: 100%">
-                        <button class="w3-button w3-border w3-margin w3-round" style="width: 100%" onclick="location.href='./signup'"> 註冊 </button>
+                        <button class="w3-button w3-border w3-margin w3-round" style="width: 100%" onclick="location.href='./'"> 登入 </button>
                     </div>
                 </div>
             </div>
@@ -209,7 +223,7 @@
     </div>
     <div class="footer w3-container w3-white">
         <span>
-            Copyright © 2019 Pollinators.
+            Copyright © 2019 Pollinators. <br>
         </span>
     </div>
     <script>
@@ -241,31 +255,76 @@
         if(urlKey("msg")) {
             Swal.fire(urlKey("msg"));
         }
+        var input = document.getElementsByTagName("input");
+        input[0].addEventListener("keyup", e => {
+            if(e.keyCode === 13 || e.which === 13) {
+                input[1].focus();
+            }
+        });
+        input[1].addEventListener("keyup", e => {
+            if(e.keyCode === 13 || e.which === 13) {
+                input[2].focus();
+            }
+        });
+        input[2].addEventListener("keyup", e => {
+            if(e.keyCode === 13 || e.which === 13) {
+                input[3].focus();
+            }
+        });
+        input[3].addEventListener("keyup", e => {
+            if(e.keyCode === 13 || e.which === 13) {
+                _signup();
+            }
+        });
+        firebase.auth().onAuthStateChanged(user => {
+            if(user && fa) {
+                location.href = "/settings";
+                document.getElementsByClassName("auth")[0].href = "/settings";
+                username(firebase.auth().currentUser.uid).then(n => document.getElementsByClassName("auth")[0].innerHTML = n);
+                fa = 0;
+            } else {
+                fa = 0;
+            }
+        });
+        if(urlKey("msg")) {
+            Swal.fire(urlKey("msg"));
+        }
         var inputs = document.getElementsByTagName("input");
-        function _login() {
-            if(!inputs[0].value || !inputs[1].value) {
-                Swal.fire("請輸入帳號密碼", "", "error");
+        function _signup() {
+            if(!inputs[0].value || !inputs[1].value || !inputs[2].value || !inputs[3].value) {
+                Swal.fire("請輸入完整資訊", "", "error");
+                return;
+            }
+            if(inputs[2].value != inputs[3].value) {
+                Swal.fire("密碼不相符", "", "error");
                 return;
             }
             document.getElementById("btn").disabled = true;
-            firebase.auth().signInWithEmailAndPassword(inputs[0].value, inputs[1].value).then(() => {
-                Swal.fire("已登入", "確認後將前往個人頁面", "success").then(() => {location.href = "/me"});
-            }).catch((error) => {
-                var authCode = error.code;
-                var authMsg = error.message;
-                if(authCode == "auth/wrong-password") {
-                    Swal.fire("密碼錯誤", "", "error");
-                } else if(authCode == "auth/user-not-found") {
-                    Swal.fire("此帳號不存在", "如要註冊請 <a href='./signup'>按此</a>", "error");
-                } else if(authCode == "auth/invalid-email email") {
-                    Swal.fire("電子郵件格式錯誤", "", "error");
-                } else if(authCode == "auth/user-disabled") {
-                    Swal.fire("此帳號已被停用", "", "error");
-                } else {
-                    Swal.fire("發生錯誤", "", "error");
-                }
-                document.getElementById("btn").disabled = false;
-            });
+            Swal.fire({title: '正在驗證', text: '這可能需要 2~3 秒', showConfirmButton: false});
+            firebase.auth().createUserWithEmailAndPassword(inputs[1].value, inputs[2].value).then((user) => {
+                console.log(firebase.auth().currentUser.uid);
+                Swal.fire({title: '正在註冊', text: '這可能需要 3~5 秒', showConfirmButton: false});
+                db.dosomething({
+                    SOMETHING;
+                }).then(()=>{
+                    firebase.auth().currentUser.sendEmailVerification();
+                    Swal.fire("註冊成功", "<Success>", "success").then(()=>{location.href="/me"});
+                });
+            })
+                .catch((error) => {
+                    var authCode = error.code;
+                    var authMsg = error.message;
+                    if(authCode == "auth/email-already-in-use") {
+                        Swal.fire("這個電子郵件已經被註冊過了", "", "error");
+                    } else if(authCode == "auth/weak-password") {
+                        Swal.fire("你的密碼強度不夠高", "", "error");
+                    } else if(authCode == "auth/invalid-email") {
+                        Swal.fire("電子郵件格式錯誤", "", "error");
+                    } else {
+                        Swal.fire("發生錯誤", "", "error");
+                    }
+                    document.getElementById("btn").disabled = false;
+                });
         }
     </script>
 </body>
