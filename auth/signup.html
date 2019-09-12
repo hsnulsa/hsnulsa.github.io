@@ -188,7 +188,7 @@
         <div class="wrapper">
             <div class="card w3-card w3-round-large">
                 <div class="signup w3-margin">
-                    <h3><i class="fas fa-envelope w3-text-black"></i><b> AnonySend</b></h3>
+                    <h3><b>Pollinators</b></h3>
                     <div class="w3-container" style="width: 100%">
                         <div style="width: 100%">
                             <label for="name">輸入名稱</label>
@@ -243,26 +243,6 @@
         });
         input[1].addEventListener("keyup", e => {
             if(e.keyCode === 13 || e.which === 13) {
-                _login()
-            }
-        });
-        firebase.auth().onAuthStateChanged(user => {
-            if(user && fa) {
-                location.href = "/me";
-                fa = 0;
-            }
-        });
-        if(urlKey("msg")) {
-            Swal.fire(urlKey("msg"));
-        }
-        var input = document.getElementsByTagName("input");
-        input[0].addEventListener("keyup", e => {
-            if(e.keyCode === 13 || e.which === 13) {
-                input[1].focus();
-            }
-        });
-        input[1].addEventListener("keyup", e => {
-            if(e.keyCode === 13 || e.which === 13) {
                 input[2].focus();
             }
         });
@@ -308,7 +288,7 @@
                     SOMETHING;
                 }).then(()=>{
                     firebase.auth().currentUser.sendEmailVerification();
-                    Swal.fire("註冊成功", "<Success>", "success").then(()=>{location.href="/me"});
+                    Swal.fire("註冊成功", "確認後將前往個人頁面", "success").then(()=>{location.href="/me"});
                 });
             })
                 .catch((error) => {
