@@ -12,9 +12,27 @@
             font-family: "Comfortaa", Verdana, 'Microsoft JhengHei', 'PingFang', sans-serif;
             font-weight: bold;
         }
+        html {
+            height: 100%;
+        }
+        body {
+            background-image: url("resource/image/background/background_1.png");
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
         .bar {
             z-index: 10;
-            position: fixed;
+            position: sticky;
+            position: -webkit-sticky;
+            top: 0;
         }
         .sidebar {
             z-index: 20;
@@ -78,34 +96,15 @@
                 height: 0;
             }
         }
-        .head {
-            background-image: url("resource/image/background/background_1.png");
-            background-position: center center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 70vh;
-            color: black;
-            box-shadow: inset 0 2px 5px 0 rgba(0,0,0,0.16), inset 0px -5px 10px 0 rgba(0,0,0,0.12);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
         .w3-bar-item {
             padding: 8px 10px !important;
             font-size: 1.1rem;
         }
-        .block {
-            z-index: 10;
-            width: 100vw;
-            padding: 0 0 8px 0;
-        }
         .hide {
             display: none !important;
         }
-        @media screen and (max-width: 350px) {
-            .head > h1 {font-size: 3.6rem !important;}
+        .layer {
+            background-color: rgba(255, 255, 255, .7);
         }
     </style>
 </head>
@@ -128,12 +127,7 @@
             <a class="w3-bar-item w3-button w3-right" href="/auth/?tab=login"><b>登入</b></a>
         </div>
         <!-- Image -->
-        <div class="head">
-            <h1 class="" style="font-size: 4rem;">Pollinators</h1>
-            <span>一個關於傳粉研究的全球公開資料庫</span>
-        </div>
-        <div class="block">
-            <div class="w3-margin">
+        <div class="layer w3-container">
                 <h2>關於 Pollinators</h2>
                 <p>
                     Pollinators 是一個關於傳粉研究的全球公開資料庫<br>
@@ -142,15 +136,11 @@
                     <br>
                     這個資料庫計畫是由師大附中學生發起的<br>
                 </p>
-            </div>
         </div>
     </div>
     <div class="footer w3-container w3-white w3-border-top w3-center">
         Copyright 2019 Pollinators.
     </div>
-
-    
-
     <script>
         function sidebar() {
             getClass("sidebar").classList.toggle("sidebar-show");
