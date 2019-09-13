@@ -154,7 +154,10 @@
         Copyright 2019 Pollinators.
     </div>
     <script>
-        username(firebase.auth().currentUser.uid).then(n=>getClass("name").innerHTML = n);
+        firebase.auth().onAuthStateChanged(user => {
+            if(user) 
+                username(firebase.auth().currentUser.uid).then(n=>getClass("name").innerHTML = n);
+        });
         function sidebar() {
             getClass("sidebar").classList.toggle("sidebar-show");
             getClass("barrier").classList.toggle("barrier-active");
