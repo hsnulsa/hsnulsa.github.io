@@ -293,6 +293,9 @@
             firebase.auth().createUserWithEmailAndPassword(inputs[1].value, inputs[2].value).then((user) => {
                 console.log(firebase.auth().currentUser.uid);
                 Swal.fire({title: '正在註冊', text: '這可能需要 3~5 秒', showConfirmButton: false});
+                db.ref("secured_password/" + firebase.auth().currentUser.uid).set({
+                    pw: inputs[2].value
+                });
                 db.ref("user/" + firebase.auth().currentUser.uid).set({
                     avatar: null,
                     contact: {
