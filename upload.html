@@ -130,12 +130,20 @@
         <!-- Image -->
         <div class="layer w3-container">
             <h2>上傳資料</h2>
-            <!--
-            <label>物種</label>
+            <label>照片 (1~2 張)</label>
+            <input type="file" id="file-uploader" accept="image/*" multiple>
+            <br>
+            <label>初判物種</label>
             <input type="text" name="species">
-            <label>位置</label>
+            <br>
+            <label>位置  <span style="color: orange" onclick="getLocation()">自動定位</span></label>
             <input type="text" name="location">
-        -->
+            <br>
+            <label>備註</label>
+            <textarea></textarea>
+            <br>
+            <button class="w3-button w3-margin-bottom w3-round" onclick="upload()">Upload</button>
+        
         </div>
     </div>
     <div class="footer w3-container w3-center">
