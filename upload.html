@@ -7,6 +7,7 @@
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-firestore.js"></script>
@@ -174,6 +175,12 @@
         Copyright 2019 Pollinators.
     </div>
     <script>
+        const Send = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
         function sidebar() {
             getClass("sidebar").classList.toggle("sidebar-show");
             getClass("barrier").classList.toggle("barrier-active");
@@ -195,18 +202,36 @@
                 Swal.fire("資料缺失", "請確實填寫資料", "error");
                 return;
             }
+            var completed = 0, images = [];
             for(var i = 0; i < getClass("files").files.length; i++) {
                 var file = getClass("files").files[i];
                 var storage = firebase.storage().ref(firebase.auth().currentUser.uid+"/"+Date.now().toString(36)+"-"+file.name);
                 let task = storage.put(file);
                 task.on('state_changed', function progress(snapshot) {
                     var percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-                    console.log("Uploading Files (" + (i+1) + ") : " + percentage + "%");
+                    console.log("Uploading Files: " + percentage + "%");
                 }, function error(err) {
                     console.error("upload failed.");
                     
                 },function complete() {
+                    task.snapshot.ref.getDownloadURL().then(url => images.push({url: url, description: ""}));
                     console.log("upload successfully.");
+                    completed++;
+                    Send.fire({title: "Uploading File "+completed, type: "info"});
+                    if(completed == n) {
+                        db.collection("documents").doc(String(Date.now())).set({
+                            species: getClass("species").value,
+                            location: getClass("location").value,
+                            description: getClass("description").value,
+                            images: images,
+                            time: Date.now(),
+                            publisher: firebase.auth().currentUser.uid,
+                            "user-agent": navigator.userAgent
+                        }).then(()=>{
+                            console.log("uploaded completed.");
+                            Send.fire({title: "Upload Completed!", type: "success"}).then(()=>{location.href = "me"});
+                        });
+                    }
                 });
             }
             
