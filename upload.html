@@ -7,6 +7,24 @@
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-storage.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCHj0NT0wgX4xY3xne61wYdNAE8O00Udmg",
+            authDomain: "pollinators-tw.firebaseapp.com",
+            databaseURL: "https://pollinators-tw.firebaseio.com",
+            projectId: "pollinators-tw",
+            storageBucket: "pollinators-tw.appspot.com",
+            messagingSenderId: "564856964449",
+            appId: "1:564856964449:web:48306d90390377c8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+    </script>
     <style>
         body, h1, h2, h3, p, a, span, button {
             font-family: "Comfortaa", Verdana, 'Microsoft JhengHei', 'PingFang', sans-serif;
@@ -16,7 +34,7 @@
             height: 100%;
         }
         body {
-            background-image: url("resource/image/background/background_1.png");
+            background-image: url("https://pollinators-tw.github.io/resource/image/background/background_1.png");
             background-position: center center;
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -106,6 +124,12 @@
         .layer {
             background-color: rgba(255, 255, 255, .7);
         }
+        .input {
+            background-color: rgba(255, 255, 255, .5);
+            border: 0;
+            border-radius: 4px;
+
+        }
     </style>
 </head>
 <body>
@@ -130,17 +154,17 @@
         <!-- Image -->
         <div class="layer w3-container">
             <h2>上傳資料</h2>
-            <label>照片 (1~2 張)</label>
-            <input type="file" id="file-uploader" accept="image/*" multiple>
+            <label>照片 (1~5 張)</label>
+            <input class="w3-input input files" type="file" id="file-uploader" accept="image/*" multiple>
             <br>
             <label>初判物種</label>
-            <input type="text" name="species">
+            <input class="w3-input input species" type="text" name="species">
             <br>
-            <label>位置  <span style="color: orange" onclick="getLocation()">自動定位</span></label>
-            <input type="text" name="location">
+            <label>位置  <span style="color: orange; cursor: pointer;" onclick="getLocation()">自動定位</span></label>
+            <input class="w3-input input location" type="text" name="location">
             <br>
             <label>備註</label>
-            <textarea></textarea>
+            <textarea class="w3-input input description"></textarea>
             <br>
             <button class="w3-button w3-margin-bottom w3-round" onclick="upload()">Upload</button>
         
@@ -157,6 +181,35 @@
         function getClass(cls, one=true) {
             if(one) return document.getElementsByClassName(cls)[0];
             return document.getElementsByClassName(cls);
+        }
+        function getLocation() {
+            navigator.geolocation.getCurrentPosition(pos => {
+                getClass("location").value = pos.coords.latitude.toFixed(5) + ", " + pos.coords.longitude.toFixed(5);
+            }, console.error);
+        }
+        function upload() {
+            if(firebase.auth().currentUser.uid == null) {
+                Swal.fire("未登入", "", "error");
+            }
+            if(getClass("files").files.length>5 || getClass("files").files.length<1 || getClass("species").value=="" || getClass("location").value=="") {
+                Swal.fire("資料缺失", "請確實填寫資料", "error");
+                return;
+            }
+            for(var i = 0; i < getClass("files").files.length; i++) {
+                var file = getClass("files").files[i];
+                var storage = firebase.storage().ref(firebase.auth().currentUser.uid+"/"+Date.now().toString(36)+"-"+file.name);
+                let task = storage.put(file);
+                task.on('state_changed', function progress(snapshot) {
+                    var percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                    console.log("Uploading Files (" + (i+1) + ") : " + percentage + "%");
+                }, function error(err) {
+                    console.error("upload failed.");
+                    
+                },function complete() {
+                    console.log("upload successfully.");
+                });
+            }
+            
         }
     </script>
 </body>
