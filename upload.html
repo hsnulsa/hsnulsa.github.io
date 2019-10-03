@@ -167,7 +167,7 @@
             <label>備註</label>
             <textarea class="w3-input input description"></textarea>
             <br>
-            <button class="w3-button w3-margin-bottom w3-round" onclick="upload()">Upload</button>
+            <button class="w3-button w3-margin-bottom w3-round submit" onclick="upload()">Upload</button>
         
         </div>
     </div>
@@ -197,11 +197,13 @@
         function upload() {
             if(firebase.auth().currentUser.uid == null) {
                 Swal.fire("未登入", "", "error");
+                return;
             }
             if(getClass("files").files.length>5 || getClass("files").files.length<1 || getClass("species").value=="" || getClass("location").value=="") {
                 Swal.fire("資料缺失", "請確實填寫資料", "error");
                 return;
             }
+            getClass("submit").disabled = true;
             var completed = 0, images = [];
             for(var i = 0; i < getClass("files").files.length; i++) {
                 var file = getClass("files").files[i];
