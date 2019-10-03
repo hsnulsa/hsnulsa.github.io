@@ -214,24 +214,25 @@
                     console.error("upload failed.");
                     
                 },function complete() {
-                    task.snapshot.ref.getDownloadURL().then(url => images.push({url: url, description: ""}));
                     console.log("upload successfully.");
                     completed++;
                     Send.fire({title: "Uploading File "+completed, type: "info"});
-                    if(completed == n) {
-                        db.collection("documents").doc(String(Date.now())).set({
-                            species: getClass("species").value,
-                            location: getClass("location").value,
-                            description: getClass("description").value,
-                            images: images,
-                            time: Date.now(),
-                            publisher: firebase.auth().currentUser.uid,
-                            "user-agent": navigator.userAgent
-                        }).then(()=>{
-                            console.log("uploaded completed.");
-                            Send.fire({title: "Upload Completed!", type: "success"}).then(()=>{location.href = "me"});
-                        });
-                    }
+                    task.snapshot.ref.getDownloadURL().then(url => images.push({url: url, description: ""})).then(() => {
+                        if(completed == getClass("files").files.length) {
+                            db.collection("documents").doc(String(Date.now())).set({
+                                species: getClass("species").value,
+                                location: getClass("location").value,
+                                description: getClass("description").value,
+                                images: images,
+                                time: Date.now(),
+                                publisher: firebase.auth().currentUser.uid,
+                                "user-agent": navigator.userAgent
+                            }).then(()=>{
+                                console.log("uploaded completed.");
+                                Send.fire({title: "Upload Completed!", type: "success"}).then(()=>{location.href = "me"});
+                            });
+                        }
+                    });
                 });
             }
             
