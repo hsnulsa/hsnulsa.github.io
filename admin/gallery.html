@@ -191,8 +191,7 @@
         function loadDatabase() {
             db.collection("documents").orderBy("time", "desc").limit(20).get().then(qs => {
                 qs.forEach(doc => {
-                    if(doc.exists())
-                        appendBox(doc.data());
+                    appendBox(doc.data());
                 });
             });
 
