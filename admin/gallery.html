@@ -104,6 +104,12 @@
         .hide {
             display: none !important;
         }
+        .stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -124,14 +130,22 @@
             <a class="w3-bar-item w3-button w3-indigo" href="/"><b>Pollinators</b></a>
             <a class="w3-bar-item w3-button w3-right" href="/auth/?tab=login"><b>登入</b></a>
         </div>
-        <div class="w3-center">
-            Copyright 2019 Pollinators.
+        <div class="w3-center stage">
+            
         </div>
     </div>
     <div class="footer w3-container w3-white w3-border-top">
-        
+        Copyright 2019 Pollinators.
     </div>
     <script>
+        firebase.auth().onAuthStateChanged(user => {
+            if(user) {
+                fetch("https://pollinators-tw.firebaseio.com/admin/"+firebase.auth().currentUser.uid+".json").then(r=>r.json()).then(p=>{
+                    if(p) loadDatabase();
+                    else location.href = "/me";
+                });
+            }
+        });
         function sidebar() {
             getClass("sidebar").classList.toggle("sidebar-show");
             getClass("barrier").classList.toggle("barrier-active");
@@ -140,6 +154,48 @@
             if(one)
                 return document.getElementsByClassName(cls)[0];
             return document.getElementsByClassName(cls);
+        }
+        function appendBox(data) {
+            var stage = getClass("stage");
+            var box = document.createElement("div");
+            box.classList.add("w3-round", "w3-border", "w3-margin");
+            box.style.width = "90vw";
+            box.style.maxWidth = "800px";
+            box.style.overflow = "hidden";
+            stage.appendChild(box);
+            var title = document.createElement("h2");
+            title.innerHTML = "初判物種："+data.species;
+            box.appendChild(title);
+            var detail = document.createElement("p");
+            detail.innerHTML = "由 "+data.publisher+" 於 "+new Date(data.time)toLocaleString()+" 上傳";
+            box.appendChild(detail);
+            var location = document.createElement("p");
+            location.innerHTML = "位置："+data.location;
+            location.onclick = function() {window.open("https://www.google.com.tw/maps/@"+data.location.replace(/\s/g, '')+",18z", "_blank")};
+            location.style.cursor = "pointer";
+            location.style.color = "orange";
+            box.appendChild(location);
+            var description = document.createElement("p");
+            description.innerHTML = "描述："+data.description;
+            for(var i = 0; i < data.images.length; i++) {
+                let image = document.createElement("img");
+                image.src = data.images[i].url;
+                image.style.width = "600px";
+                image.style.maxWidth = "80vw";
+                box.appendChild(image);
+                let imageDes = docuent.createElement("p");
+                imageDes.innerHTML = data.images[i].description;
+                box.appendChild(imageDes);
+            }
+        }
+        function loadDatabase() {
+            db.collection("documents").orderBy("time", "desc").limit(20).get().then(qs => {
+                qs.forEach(doc => {
+                    if(doc.exists())
+                        appendBox(doc.data());
+                });
+            });
+
         }
     </script>
 </body>
