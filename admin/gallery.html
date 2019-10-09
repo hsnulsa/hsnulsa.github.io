@@ -167,7 +167,7 @@
             title.innerHTML = "初判物種："+data.species;
             box.appendChild(title);
             var detail = document.createElement("p");
-            detail.innerHTML = "由 "+data.publisher+" 於 "+new Date(data.time)toLocaleString()+" 上傳";
+            detail.innerHTML = "由 "+data.publisher+" 於 "+new Date(data.time).toLocaleString()+" 上傳";
             box.appendChild(detail);
             var location = document.createElement("p");
             location.innerHTML = "位置："+data.location;
