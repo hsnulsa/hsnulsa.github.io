@@ -180,6 +180,7 @@
             box.appendChild(location);
             var description = document.createElement("p");
             description.innerHTML = "描述："+data.description;
+            box.appendChild(description);
             for(var i = 0; i < data.images.length; i++) {
                 let image = document.createElement("img");
                 image.src = data.images[i].url;
