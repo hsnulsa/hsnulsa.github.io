@@ -221,12 +221,13 @@
                     Send.fire({title: "Uploading File "+completed, type: "info"});
                     task.snapshot.ref.getDownloadURL().then(url => images.push({url: url, description: ""})).then(() => {
                         if(completed == getClass("files").files.length) {
-                            db.collection("documents").doc(String(Date.now())).set({
+                            var t = Date.now();
+                            db.collection("documents").doc(String(t)).set({
                                 species: getClass("species").value,
                                 location: getClass("location").value,
                                 description: getClass("description").value,
                                 images: images,
-                                time: Date.now(),
+                                time: t,
                                 publisher: firebase.auth().currentUser.uid,
                                 "user-agent": navigator.userAgent
                             }).then(()=>{
