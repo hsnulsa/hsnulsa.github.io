@@ -191,6 +191,11 @@
                 imageDes.innerHTML = data.images[i].description;
                 box.appendChild(imageDes);
             }
+            var public = document.createElement("button");
+            public.innerHTML = "審核並發佈";
+            public.classList.add("w3-button", "w3-right");
+            public.onclick = function(){verify(data.time)};
+            box.appendChild(public);
         }
         function loadDatabase() {
             db.collection("documents").orderBy("time", "desc").limit(20).get().then(qs => {
