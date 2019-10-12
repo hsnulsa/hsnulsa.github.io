@@ -210,7 +210,7 @@
             });
         }
         function verify(id) {
-            db.collection("documents").doc(id).update({
+            db.collection("documents").doc(id.toString()).update({
                 public: true
             }).then(()=>{Swal.fire("已審核", "", "success")});
         }
