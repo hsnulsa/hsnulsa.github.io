@@ -170,6 +170,12 @@
     </div>
     <script>
         if(!urlKey("file")) location.href = "me";
+        db.collection("documents").doc(urlKey("file")).get().then(doc => {
+            if(doc.exists) {
+                getClass("species").value = doc.data().species;
+                getClass("description").value = doc.data().description;
+            } else location.href = "me";
+        });
         const Send = Swal.mixin({
             toast: true,
             position: 'top-end',
