@@ -203,7 +203,8 @@
            
             db.collection("documents").doc(urlKey("file")).update({
                 species: getClass("species").value,
-                description: getClass("description").value
+                description: getClass("description").value,
+                public: false
             }).then(()=>{
                 console.log("updated.");
                 Send.fire({title: "Updated!", type: "success"}).then(()=>{location.href = "me"});
