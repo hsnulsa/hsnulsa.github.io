@@ -192,11 +192,6 @@
                 imageDes.innerHTML = data.images[i].description;
                 box.appendChild(imageDes);
             }
-            var edit = document.createElement("button");
-            edit.innerHTML = "編輯";
-            edit.classList.add("w3-button", "w3-right");
-            edit.onclick = function(){location.href="/edit?file="+data.time};
-            box.appendChild(edit);
             var public = document.createElement("button");
             public.innerHTML = "審核並發佈";
             if(data.public === true) {
@@ -206,6 +201,11 @@
             public.classList.add("w3-button", "w3-right");
             public.onclick = function(){verify(data.time)};
             box.appendChild(public);
+            var edit = document.createElement("a");
+            edit.innerHTML = "編輯";
+            edit.classList.add("w3-button", "w3-right", "w3-margin-right");
+            edit.href = "/edit?file="+data.time;
+            box.appendChild(edit);
         }
         function loadDatabase() {
             db.collection("documents").orderBy("time", "desc").limit(20).get().then(qs => {
