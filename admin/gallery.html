@@ -28,6 +28,9 @@
         var db = firebase.firestore();
     </script>
     <style>
+        body {
+            background-color: white;
+        }
         body, h1, h2, h3, p, a, span, button {
             font-family: "Comfortaa", Verdana, 'Microsoft JhengHei', 'PingFang', sans-serif;
             font-weight: bold;
@@ -112,9 +115,29 @@
             align-items: center;
             justify-content: center;
         }
+        #image-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        #image-viewer > img {
+            max-width: 90%;
+            max-height: 90%;
+        }
     </style>
 </head>
 <body>
+    <div id="image-viewer" onclick="this.style.zIndex = -1;">
+        <img class="img-viewer"></img>
+    </div>
     <div class="barrier" onclick="sidebar()"></div>
     <div class="content">
         <!-- Sidebar -->
@@ -182,15 +205,16 @@
             var description = document.createElement("p");
             description.innerHTML = "描述："+data.description;
             box.appendChild(description);
+            var images = document.createElement("ul");
+            images.classList.add("w3-ul");
             for(var i = 0; i < data.images.length; i++) {
-                let image = document.createElement("img");
-                image.src = data.images[i].url;
-                image.style.width = "600px";
-                image.style.maxWidth = "80vw";
+                let image = document.createElement("li");
+                image.onclick = function(){
+                    getClass("img-viewer").src = data.images[i].url;
+                    document.getElementById("image-viewer").style.zIndex = 10;
+                };
+                image.innerHTML = "照片"+(i+1)+" - "+data.images[i].description;
                 box.appendChild(image);
-                let imageDes = document.createElement("p");
-                imageDes.innerHTML = data.images[i].description;
-                box.appendChild(imageDes);
             }
             var public = document.createElement("button");
             public.innerHTML = "審核並發佈";
