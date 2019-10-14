@@ -207,8 +207,9 @@
             images.classList.add("w3-ul");
             for(var i = 0; i < data.images.length; i++) {
                 let image = document.createElement("li");
+                let src = data.images[i].url;
                 image.onclick = function(){
-                    getClass("img-viewer").src = data.images[i].url;
+                    getClass("img-viewer").src = src;
                     document.getElementById("image-viewer").style.zIndex = 10;
                 };
                 image.innerHTML = "照片"+(i+1)+" - "+data.images[i].description;
