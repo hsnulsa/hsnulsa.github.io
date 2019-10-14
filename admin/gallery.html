@@ -215,6 +215,7 @@
                 image.innerHTML = "照片"+(i+1)+" - "+data.images[i].description;
                 images.appendChild(image);
             }
+            box.appendChild(images);
             var public = document.createElement("button");
             public.innerHTML = "審核並發佈";
             if(data.public === true) {
