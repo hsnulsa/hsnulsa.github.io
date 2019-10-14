@@ -210,7 +210,7 @@
                 let src = data.images[i].url;
                 image.onclick = function(){
                     getClass("img-viewer").src = src;
-                    document.getElementById("image-viewer").style.zIndex = 10;
+                    document.getElementById("image-viewer").style.zIndex = 100;
                 };
                 image.innerHTML = "照片"+(i+1)+" - "+data.images[i].description;
                 images.appendChild(image);
